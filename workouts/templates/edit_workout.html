@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Workout | Gym Workout Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .edit-card {
+            border: none;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold">🏋️ Gym Tracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'add_workout' %}">Add Workout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'workout_history' %}">History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card edit-card shadow p-4">
+                    <h3 class="fw-bold mb-4">✏️ Edit Workout</h3>
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Workout Name *</label>
+                            <input type="text" name="name" class="form-control" value="{{ workout.name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Category *</label>
+                            <select name="category" class="form-select" required>
+                                <option value="Chest" {% if workout.category=="Chest" %}selected{% endif %}>Chest
+                                </option>
+                                <option value="Back" {% if workout.category=="Back" %}selected{% endif %}>Back</option>
+                                <option value="Legs" {% if workout.category=="Legs" %}selected{% endif %}>Legs</option>
+                                <option value="Shoulders" {% if workout.category=="Shoulders" %}selected{% endif %}>
+                                    Shoulders</option>
+                                <option value="Arms" {% if workout.category=="Arms" %}selected{% endif %}>Arms</option>
+                                <option value="Core" {% if workout.category=="Core" %}selected{% endif %}>Core</option>
+                                <option value="Cardio" {% if workout.category=="Cardio" %}selected{% endif %}>Cardio
+                                </option>
+                                <option value="Full Body" {% if workout.category=="Full Body" %}selected{% endif %}>Full
+                                    Body</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Date *</label>
+                            <input type="date" name="date" class="form-control" value="{{ workout.date|date:'Y-m-d' }}"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Notes</label>
+                            <textarea name="notes" class="form-control" rows="3">{{ workout.notes }}</textarea>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-fill">💾 Save Changes</button>
+                            <a href="{% url 'workout_history' %}" class="btn btn-outline-secondary flex-fill">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
