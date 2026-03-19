@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Workout , WorkoutEntry
+from django.db.models import Count
 from django.http import JsonResponse
 
 def login_page(request):
@@ -45,13 +46,21 @@ def logout_user(request):
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
+    
     workouts = Workout.objects.filter(user=request.user).order_by('-date')
     total_workouts = workouts.count()
     latest_workout = workouts.first()
 
+    category_data = workouts.values('category').annotate(count = Count('id'))
+    chart_labels = [item['category'] for item in category_data]
+    chart_values = [item['count'] for item in category_data]
+
+
     context = {
         'total_workouts':total_workouts,
         'latest_workout':latest_workout,
+        'chart_labels': chart_labels,
+        'chart_values': chart_values
     }
     return render(request, 'dashboard.html' , context)
 
