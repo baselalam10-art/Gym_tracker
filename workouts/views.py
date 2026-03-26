@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Workout , WorkoutEntry
+from .models import Workout , WorkoutEntry  , CoachProgram
 from django.db.models import Count
 from django.http import JsonResponse
+import requests
+from django.conf import settings
+from django.contrib import messages
 
 def login_page(request):
     if request.user.is_authenticated:
@@ -48,6 +51,7 @@ def dashboard(request):
         return redirect('login')
     
     workouts = Workout.objects.filter(user=request.user).order_by('-date')
+    coach_programs = CoachProgram.objects.all()
     total_workouts = workouts.count()
     latest_workout = workouts.first()
 
@@ -60,7 +64,9 @@ def dashboard(request):
         'total_workouts':total_workouts,
         'latest_workout':latest_workout,
         'chart_labels': chart_labels,
-        'chart_values': chart_values
+        'chart_values': chart_values,
+        'show_suggestions':total_workouts < 5,
+        'coach_programs' : coach_programs,
     }
     return render(request, 'dashboard.html' , context)
 
@@ -193,3 +199,53 @@ def api_workout(request):
      })    
 
 
+
+def send_summary(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    user = request.user
+
+    workouts = Workout.objects.filter(user=user).order_by('-date')
+    latest = workouts.first()
+
+    summary = f"Hi {user.username} \n\n Here’s your gym summary: \n "
+    
+
+    if latest:
+        summary += f"Workout: {latest.name}\n"
+        for e in latest.entries.all():
+            summary += f"- {e.exercise_name}: {e.sets}x{e.reps} @ {e.weight_kg}kg\n"
+    else:
+        summary += "No workouts yet"
+
+    payload = {
+        "service_id": settings.EMAILJS_SERVICE_ID,
+        "template_id": settings.EMAILJS_TEMPLATE_ID,
+        "user_id": settings.EMAILJS_PUBLIC_KEY,  
+        "template_params": {
+            "to_email": user.email,
+            "to_name": user.username,
+            "message": summary
+        }
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(
+        "https://api.emailjs.com/api/v1.0/email/send",
+        json=payload,
+        headers=headers
+    )
+
+    print(response.status_code)
+    print(response.text)
+
+    if response.status_code == 200:
+        messages.success(request, "Email sent ✅")
+    else:
+        messages.error(request, f"Error: {response.text}")
+
+    return redirect('dashboard')

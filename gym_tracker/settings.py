@@ -119,3 +119,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+EMAILJS_SERVICE_ID = "service_msbyxwr"
+EMAILJS_TEMPLATE_ID = "template_dmpkqmv"
+EMAILJS_PUBLIC_KEY = "BiZxv6kYjQxbvBZq5"
+

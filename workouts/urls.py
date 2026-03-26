@@ -13,6 +13,8 @@ urlpatterns = [
     path('about/' , views.about , name='about'),
     path('workout/edit/<int:workout_id>' , views.edit_workout , name='edit_workout'),
     path('api/workouts/' , views.api_workout , name='api_workout'),
+    path('send-summary/', views.send_summary, name='send_summary'),
+
 
     
 ]

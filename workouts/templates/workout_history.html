@@ -102,12 +102,12 @@
                         {% endif %}
                     </div>
                     <div class="card-footer bg-white border-0 pb-3 px-4 d-flex gap-2">
-                        <a href="{% url 'add_entries' workout.id %}" class="btn btn-outline-primary btn-sm flex-fill">👁
+                        <a href="{% url 'add_entries' workout.id %}" class="btn btn-primary btn-sm flex-fill">👁
                             View</a>
                         <a href="{% url 'edit_workout' workout.id %}"
-                            class="btn btn-outline-success btn-sm flex-fill">✏️ Edit</a>
+                            class="btn btn-success btn-sm flex-fill">✏️ Edit</a>
                         <button onclick="deleteWorkout({{ workout.id }}, this)"
-                            class="btn btn-outline-danger btn-sm flex-fill">🗑 Delete</button>
+                            class="btn btn-danger btn-sm flex-fill">🗑 Delete</button>
                     </div>
                 </div>
             </div>

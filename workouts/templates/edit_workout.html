@@ -7,15 +7,41 @@
     <title>Edit Workout | Gym Workout Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background: #f8f9fa;
-        }
-
-        .edit-card {
-            border: none;
-            border-radius: 12px;
-        }
-    </style>
+    body { background: #eef0f5; }
+    .edit-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .form-control, .form-select {
+        border-radius: 25px;
+        padding: 12px 18px;
+        border: 1.5px solid #e0e0e0;
+        background: #f8f9fa;
+        font-size: 14px;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #4361ee;
+        box-shadow: none;
+        background: white;
+    }
+    textarea.form-control {
+        border-radius: 16px;
+    }
+    .btn-primary {
+        background: #4361ee;
+        border: none;
+        border-radius: 25px;
+        padding: 12px;
+        font-weight: 600;
+    }
+    .btn-primary:hover { background: #3451d1; }
+    .btn-outline-secondary {
+        border-radius: 25px;
+        padding: 12px;
+        font-weight: 600;
+    }
+</style>
 </head>
 
 <body>
@@ -54,17 +80,17 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold">Category *</label>
                             <select name="category" class="form-select" required>
-                                <option value="Chest" {% if workout.category=="Chest" %}selected{% endif %}>Chest
+                                <option value="Chest" {% if workout.category == "Chest" %}selected{% endif %}>Chest
                                 </option>
-                                <option value="Back" {% if workout.category=="Back" %}selected{% endif %}>Back</option>
-                                <option value="Legs" {% if workout.category=="Legs" %}selected{% endif %}>Legs</option>
-                                <option value="Shoulders" {% if workout.category=="Shoulders" %}selected{% endif %}>
+                                <option value="Back" {% if workout.category == "Back" %}selected{% endif %}>Back</option>
+                                <option value="Legs" {% if workout.category == "Legs" %}selected{% endif %}>Legs</option>
+                                <option value="Shoulders" {% if workout.category == "Shoulders" %}selected{% endif %}>
                                     Shoulders</option>
-                                <option value="Arms" {% if workout.category=="Arms" %}selected{% endif %}>Arms</option>
-                                <option value="Core" {% if workout.category=="Core" %}selected{% endif %}>Core</option>
-                                <option value="Cardio" {% if workout.category=="Cardio" %}selected{% endif %}>Cardio
+                                <option value="Arms" {% if workout.category == "Arms" %}selected{% endif %}>Arms</option>
+                                <option value="Core" {% if workout.category == "Core" %}selected{% endif %}>Core</option>
+                                <option value="Cardio" {% if workout.category == "Cardio" %}selected{% endif %}>Cardio
                                 </option>
-                                <option value="Full Body" {% if workout.category=="Full Body" %}selected{% endif %}>Full
+                                <option value="Full Body" {% if workout.category == "Full Body" %}selected{% endif %}>Full
                                     Body</option>
                             </select>
                         </div>
