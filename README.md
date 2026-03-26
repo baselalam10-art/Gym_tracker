@@ -40,10 +40,13 @@ A full-stack web application built with Django and MySQL that helps users log, t
 
 ## 🗄️ Database Schema
 
-3 Tables:
+4 Tables:
 - *User* — Django's built-in user model
 - *Workout* — Workout sessions linked to a user
 - *WorkoutEntry* — Individual exercises linked to a workout
+- *coachProgram* — Coach admin panel to monitor and manage user's workout data and progress
+
+
 
 ---
 
